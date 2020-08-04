@@ -26,6 +26,8 @@ func TestAccWavefrontDerivedMetric_Basic(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "minutes", "5"),
 					resource.TestCheckResourceAttr(
+						"wavefront_derived_metric.derived", "process_rate_minutes", "5"),
+					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "query", "aliasMetric(5, \"some.metric\")"),
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "additional_information", "this is a dummy derived metric"),
@@ -52,6 +54,8 @@ func TestAccWavefrontDerivedMetric_Updated(t *testing.T) {
 					testAccCheckWavefrontDerivedMetricAttributes(&record),
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "minutes", "5"),
+					resource.TestCheckResourceAttr(
+						"wavefront_derived_metric.derived", "process_rate_minutes", "5"),
 				),
 			},
 			{
@@ -61,6 +65,8 @@ func TestAccWavefrontDerivedMetric_Updated(t *testing.T) {
 					testAccCheckWavefrontDerivedMetricAttributes(&record),
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "minutes", "10"),
+					resource.TestCheckResourceAttr(
+						"wavefront_derived_metric.derived", "process_rate_minutes", "10"),
 				),
 			},
 		},
@@ -90,6 +96,8 @@ func TestAccWavefrontDerivedMetric_Multiple(t *testing.T) {
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "minutes", "5"),
 					resource.TestCheckResourceAttr(
+						"wavefront_derived_metric.derived", "process_rate_minutes", "5"),
+					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "query", "aliasMetric(5, \"some.metric\")"),
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived", "additional_information", "this is a dummy derived metric"),
@@ -100,6 +108,8 @@ func TestAccWavefrontDerivedMetric_Multiple(t *testing.T) {
 						"wavefront_derived_metric.derived2", "name", "dummy derived metric"),
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived2", "minutes", "5"),
+					resource.TestCheckResourceAttr(
+						"wavefront_derived_metric.derived2", "process_rate_minutes", "5"),
 					resource.TestCheckResourceAttr(
 						"wavefront_derived_metric.derived2", "query", "aliasMetric(5, \"some.metric\")"),
 					resource.TestCheckResourceAttr(
@@ -121,6 +131,10 @@ func testAccCheckWavefrontDerivedMetricAttributes(dm *wavefront.DerivedMetric) r
 
 		if !(dm.Minutes == 5 || dm.Minutes == 10) {
 			return fmt.Errorf("bad value: %d", dm.Minutes)
+		}
+
+		if !(dm.ProcessRateMinutes == 5 || dm.ProcessRateMinutes == 10) {
+			return fmt.Errorf("bad value: %d", dm.ProcessRateMinutes)
 		}
 
 		if dm.Query != "aliasMetric(5, \"some.metric\")" {
@@ -190,6 +204,7 @@ func testAccCheckWavefrontDerivedMetric_Basic() string {
 resource "wavefront_derived_metric" "derived" {
   name                   = "dummy derived metric"
   minutes                = 5
+  process_rate_minutes   = 5
   query                  = "aliasMetric(5, \"some.metric\")"
   additional_information = "this is a dummy derived metric"
   tags = [
@@ -206,6 +221,7 @@ func testAccCheckWavefrontDerivedMetric_Updated() string {
 resource "wavefront_derived_metric" "derived" {
   name                   = "dummy derived metric"
   minutes                = 10
+  process_rate_minutes   = 10
   query                  = "aliasMetric(5, \"some.metric\")"
   additional_information = "this is a dummy derived metric"
   tags = [
@@ -222,6 +238,7 @@ func testAccCheckWavefrontDerivedMetric_Multiple() string {
 resource "wavefront_derived_metric" "derived" {
   name                   = "dummy derived metric"
   minutes                = 5
+  process_rate_minutes   = 5
   query                  = "aliasMetric(5, \"some.metric\")"
   additional_information = "this is a dummy derived metric"
   tags = [
@@ -234,6 +251,7 @@ resource "wavefront_derived_metric" "derived" {
 resource "wavefront_derived_metric" "derived2" {
   name                   = "dummy derived metric"
   minutes                = 5
+  process_rate_minutes   = 5
   query                  = "aliasMetric(5, \"some.metric\")"
   additional_information = "this is a dummy derived metric"
   tags = [

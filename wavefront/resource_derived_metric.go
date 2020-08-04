@@ -30,6 +30,11 @@ func resourceDerivedMetric() *schema.Resource {
 				Required:     true,
 				ValidateFunc: nil, // TODO - Validate to ensure > 0 minutes and < insane minutes
 			},
+			"process_rate_minutes": {
+				Type:         schema.TypeInt,
+				Required:     true,
+				ValidateFunc: nil, // TODO - Validate to ensure > 0 minutes and < insane minutes
+			},
 			"additional_information": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -56,6 +61,7 @@ func resourceDerivedMetricCreate(d *schema.ResourceData, meta interface{}) error
 		AdditionalInformation: d.Get("additional_information").(string),
 		Query:                 d.Get("query").(string),
 		Minutes:               d.Get("minutes").(int),
+		ProcessRateMinutes:    d.Get("process_rate_minutes").(int),
 		Tags:                  wavefront.WFTags{CustomerTags: tags},
 	}
 
@@ -89,6 +95,7 @@ func resourceDerivedMetricUpdate(d *schema.ResourceData, meta interface{}) error
 	dm := tmpDM
 	dm.Name = d.Get("name").(string)
 	dm.Minutes = d.Get("minutes").(int)
+	dm.ProcessRateMinutes = d.Get("process_rate_minutes").(int)
 	dm.AdditionalInformation = d.Get("additional_information").(string)
 	dm.Query = d.Get("query").(string)
 	dm.Tags = wavefront.WFTags{CustomerTags: tags}
@@ -120,6 +127,7 @@ func resourceDerivedMetricRead(d *schema.ResourceData, meta interface{}) error {
 	d.SetId(*tmpDM.ID)
 	d.Set("name", tmpDM.Name)
 	d.Set("minutes", tmpDM.Minutes)
+	d.Set("process_rate_minutes", tmpDM.ProcessRateMinutes)
 	d.Set("additional_information", tmpDM.AdditionalInformation)
 	d.Set("query", tmpDM.Query)
 	d.Set("tags", tmpDM.Tags.CustomerTags)

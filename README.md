@@ -1,4 +1,4 @@
-# THIS REPO IS NO LONGER BEING MAINTAINED!!!!  PLEASE VISIT https://github.com/terraform-providers/terraform-provider-wavefront FOR THE LASTEST TERRAFORM WAVEFRONT PROVIDER.
+# THE TERRAFORM WAVEFRONT PROVIDER HAS MOVED!!!!  PLEASE VISIT https://github.com/terraform-providers/terraform-provider-wavefront FOR THE LASTEST TERRAFORM WAVEFRONT PROVIDER.  THIS REPO IS NO LONGER UP-TO-DATE!
 
 # Wavefront Terraform Provider
 
